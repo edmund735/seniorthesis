@@ -67,7 +67,7 @@ if __name__ == "__main__":
 		os.makedirs("./models")
 
 	env = gym.make(args.env)
-	print(env.observation_space.space)
+	print(env.observation_space.shape)
 
 	# Set seeds
 	# print(env.reset(seed = args.seed))
