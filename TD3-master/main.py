@@ -55,7 +55,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	file_name = f"{args.policy}_{args.env.rsplit('/', 1)[-1]}_{args.seed}"
-	print(file_name)
+	
 	print("---------------------------------------")
 	print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}")
 	print("---------------------------------------")
