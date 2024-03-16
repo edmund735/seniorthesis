@@ -55,7 +55,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	file_name = f"{args.policy}_{args.env.rsplit('/', 1)[-1]}_{args.seed}"
-	
+
 	print("---------------------------------------")
 	print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}")
 	print("---------------------------------------")
@@ -67,6 +67,7 @@ if __name__ == "__main__":
 		os.makedirs("./models")
 
 	env = gym.make(args.env)
+	print(env.observation_space)
 
 	# Set seeds
 	# print(env.reset(seed = args.seed))
