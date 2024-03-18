@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
 	env = gym.make(args.env)
 	print(args.env)
-	print(env)
+	print(type(env))
 	print(env.observation_space.shape)
 
 	# Set seeds
