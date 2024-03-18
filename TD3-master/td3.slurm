@@ -15,4 +15,4 @@ module purge
 module load anaconda3/2024.2
 conda activate seniorthesis
 
-python main.py --env Pendulum-v1 --save_model
+python main.py --env --save_model
