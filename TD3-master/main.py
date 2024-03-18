@@ -67,16 +67,13 @@ if __name__ == "__main__":
 		os.makedirs("./models")
 
 	env = gym.make(args.env)
-	print(args.env)
-	print(type(env))
-	print(env.observation_space.shape)
 
 	# Set seeds
 	# print(env.reset(seed = args.seed))
 	env.action_space.seed(args.seed)
 	torch.manual_seed(args.seed)
 	# np.random.seed(args.seed)
-	print(type(env.observation_space))
+	# print(env.observation_space)
 	state_dim = env.observation_space.shape[0]
 	action_dim = env.action_space.shape[0] 
 	max_action = float(env.action_space.high[0])
