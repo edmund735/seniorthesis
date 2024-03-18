@@ -76,7 +76,7 @@ if __name__ == "__main__":
 	env.action_space.seed(args.seed)
 	torch.manual_seed(args.seed)
 	# np.random.seed(args.seed)
-	
+	print(type(env.observaion_space))
 	state_dim = env.observation_space.shape[0]
 	action_dim = env.action_space.shape[0] 
 	max_action = float(env.action_space.high[0])
