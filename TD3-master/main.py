@@ -11,11 +11,19 @@ import DDPG
 import time
 
 
+def print_bad_obs(state):
+	assert len(state) == 6
+	if state[4] > 100:
+		print("Time:")
+		print(state)
+	if state[5] > 1000:
+		print("Position:")
+		print(state)
+
 # Runs policy for X episodes and returns average reward
 # A fixed seed is used for the eval environment
 def eval_policy(policy, env_name, seed, eval_episodes=10):
 	eval_env = gym.make(env_name)
-	eval_env.reset(seed = seed + 100)
 
 	avg_reward = 0.
 	for _ in range(eval_episodes):
@@ -55,6 +63,12 @@ if __name__ == "__main__":
 	parser.add_argument("--policy_freq", default=2, type=int)       # Frequency of delayed policy updates
 	parser.add_argument("--save_model", action="store_true")        # Save model and optimizer parameters
 	parser.add_argument("--load_model", default="")                 # Model load file name, "" doesn't load, "default" uses file_name
+	parser.add_argument("--T", default=100)
+	parser.add_argument("--impact_decay", default=10)
+	parser.add_argument("--lamb", default=0.001)
+	parser.add_argument("--init_position", default=0)
+	parser.add_argument("--end_position", default=1000)
+	
 	args = parser.parse_args()
 
 	file_name = f"{args.policy}_{args.env.rsplit('/', 1)[-1]}_{args.seed}"
@@ -69,14 +83,25 @@ if __name__ == "__main__":
 	if args.save_model and not os.path.exists("./models"):
 		os.makedirs("./models")
 
-	env = gym.make(args.env)
+	env_kwargs = {
+		"T": args.T,
+		"tau": args.impact_decay,
+		"lamb": args.lamb,
+		"gamma": 0.01,
+		"sigma": 0.3,
+		"c": 0.5,
+		"init_pos": args.init_position,
+		"end_pos": args.end_position,
+		"S0": 10.
+		}
+	env = gym.make(args.env, **env_kwargs)
 
 	# Set seeds
 	# print(env.reset(seed = args.seed))
 	env.action_space.seed(args.seed)
 	torch.manual_seed(args.seed)
 	# np.random.seed(args.seed)
-	
+
 	state_dim = env.observation_space.shape[0]
 	action_dim = env.action_space.shape[0] 
 	max_action = float(env.action_space.high[0])
@@ -87,6 +112,7 @@ if __name__ == "__main__":
 		"max_action": max_action,
 		"discount": args.discount,
 		"tau": args.tau,
+		"total_q": max(args.init_position, args.end_position)
 	}
 
 	# Initialize policy
@@ -110,11 +136,12 @@ if __name__ == "__main__":
 	# Evaluate untrained policy
 	evaluations = [eval_policy(policy, args.env, args.seed)]
 
-	state, done = env.reset()[0], False
+	state, done = env.reset(seed = args.seed)[0], False
 
 	episode_reward = 0
 	episode_timesteps = 0
 	episode_num = 0
+	q_rem = max(args.init_position, args.end_position)
 
 	for t in range(int(args.max_timesteps)):
 		
@@ -122,19 +149,26 @@ if __name__ == "__main__":
 
 		# Select action randomly or according to policy
 		if t < args.start_timesteps:
-			action = env.action_space.sample()
+			action = env.np_random.uniform(low = 0, high = q_rem, size = action_dim)
 		else:
 			action = (
 				policy.select_action(np.array(state))
-				+ np.random.normal(0, max_action * args.expl_noise, size=action_dim)
-			).clip(-max_action, max_action)
+				+ env.np_random.normal(0, q_rem * args.expl_noise, size=action_dim)
+			).clip(0, q_rem)
+			# print(policy.select_action(np.array(state)))
+			# print(env.np_random.normal(0, q_rem * args.expl_noise, size=action_dim))
 
 		# Perform action
 		next_state, reward, terminated, truncated, _ = env.step(action)
+		q_rem -= action[0]
 		done = terminated or truncated
 		done_bool = float(done)#  if episode_timesteps < env._max_episode_steps else 0
 
 		# Store data in replay buffer
+		# print(t, args.start_timesteps)
+		# print(f"State: {state}")
+		# print(f"Action: {action}")
+		# print(f"Next state: {next_state}")
 		replay_buffer.add(state, action, next_state, reward, done_bool)
 
 		state = next_state

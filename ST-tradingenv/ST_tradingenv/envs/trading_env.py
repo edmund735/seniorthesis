@@ -10,11 +10,11 @@ class TradingEnv(gym.Env):
     def __init__(self,
                  render_mode=None,
                  T = 100.,
+                 tau = 10.,
                  lamb = 0.001,
                  gamma = 0.01,
                  sigma = 0.3,
                  c = 0.5,
-                 tau = 10.,
                  init_pos = 0.,
                  end_pos = 1000.,
                  S0 = 10.):
@@ -29,7 +29,7 @@ class TradingEnv(gym.Env):
         self.end_pos = end_pos
         self.S0 = S0 # asset price
 
-        self.observation_space = spaces.Box(low = np.array([-np.inf, -np.inf, -np.inf, -np.inf, 0., 0.]), high = np.array([np.inf, np.inf, np.inf, np.inf, T + 1, max(self.init_pos, self.end_pos) + 1]), dtype = np.float64)
+        self.observation_space = spaces.Box(low = np.array([-np.inf, -np.inf, -np.inf, -np.inf, 0., 0.]), high = np.array([np.inf, np.inf, np.inf, np.inf, T, max(self.init_pos, self.end_pos)]), dtype = np.float64)
 
         self.action_space = spaces.Box(low = 0., high = max(self.init_pos, self.end_pos), shape = (1,), dtype = np.float64)
 
