@@ -75,8 +75,10 @@ class TradingEnv(gym.Env):
 
         # An episode is done iff the agent has reached the target
         terminated = True if self.Q >= self.end_pos or self.T_rem <= 0 else False
-
-        reward = -action * self.I + self.Q * (self.S-prev_S)
+        if self.Q - self.end_pos >= 1:
+            reward = -99999
+        else:
+            reward = -action * self.I + self.Q * (self.S-prev_S)
         observation = self._get_obs()
         info = self._get_info()
 
