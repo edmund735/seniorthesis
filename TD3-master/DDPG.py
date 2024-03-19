@@ -31,7 +31,7 @@ class Actor(nn.Module):
 	
 class ActorNegReward(nn.Module):
 	def __init__(self, state_dim, action_dim, max_action):
-		super(Actor, self).__init__()
+		super(ActorNegReward, self).__init__()
 
 		self.l1 = nn.Linear(state_dim, 400)
 		self.l2 = nn.Linear(400, 300)
