@@ -11,14 +11,16 @@ import DDPG
 import time
 
 
-def print_bad_obs(state):
+def print_bad_obs(action, state):
 	assert len(state) == 6
 	if state[4] > 100:
 		print("Time:")
 		print(state)
+		print(f"action: {action}")
 	if state[5] > 1000:
 		print("Position:")
 		print(state)
+		print(f"action: {action}")
 
 # Runs policy for X episodes and returns average reward
 # A fixed seed is used for the eval environment
@@ -32,6 +34,7 @@ def eval_policy(policy, env_name, seed, eval_episodes=10):
 		while not done:
 			action = policy.select_action(np.array(state))
 			state, reward, terminated, truncated, _ = eval_env.step(action)
+			print_bad_obs(action, state)
 			done = terminated or truncated
 			avg_reward += reward
 
@@ -160,6 +163,7 @@ if __name__ == "__main__":
 
 		# Perform action
 		next_state, reward, terminated, truncated, _ = env.step(action)
+		# print_bad_obs(action, next_state)
 		q_rem -= action[0]
 		done = terminated or truncated
 		done_bool = float(done)#  if episode_timesteps < env._max_episode_steps else 0
@@ -185,7 +189,8 @@ if __name__ == "__main__":
 			state, done = env.reset()[0], False
 			episode_reward = 0
 			episode_timesteps = 0
-			episode_num += 1 
+			episode_num += 1
+			q_rem = max(args.init_position, args.end_position)
 
 		# Evaluate episode
 		if (t + 1) % args.eval_freq == 0:
