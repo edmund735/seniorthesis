@@ -8,6 +8,7 @@ import utils
 import TD3
 import OurDDPG
 import DDPG
+import time
 
 
 # Runs policy for X episodes and returns average reward
@@ -36,6 +37,8 @@ def eval_policy(policy, env_name, seed, eval_episodes=10):
 
 if __name__ == "__main__":
 	
+	start_time = time.time()
+
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--policy", default="TD3")                  # Policy name (TD3, DDPG or OurDDPG)
 	parser.add_argument("--env", default='ST_tradingenv/Trading-v0')# Gymnasium environment name
@@ -73,7 +76,7 @@ if __name__ == "__main__":
 	env.action_space.seed(args.seed)
 	torch.manual_seed(args.seed)
 	# np.random.seed(args.seed)
-	# print(env.observation_space)
+	print(env.observation_space)
 	state_dim = env.observation_space.shape[0]
 	action_dim = env.action_space.shape[0] 
 	max_action = float(env.action_space.high[0])
@@ -155,3 +158,5 @@ if __name__ == "__main__":
 			evaluations.append(eval_policy(policy, args.env, args.seed))
 			np.save(f"./results/{file_name}", evaluations)
 			if args.save_model: policy.save(f"./models/{file_name}")
+	
+	print(time.time()-start_time)
