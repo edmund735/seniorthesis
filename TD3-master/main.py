@@ -193,4 +193,4 @@ if __name__ == "__main__":
 			np.save(f"./results/{file_name}", evaluations)
 			if args.save_model: policy.save(f"./models/{file_name}")
 	
-	print(time.time()-start_time)
+	print(f"Total time for {args.policy}: {time.time()-start_time}")
