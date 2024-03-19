@@ -6,7 +6,7 @@
 #SBATCH --mem-per-cpu=8G         # memory per cpu-core (4G is default)
 #SBATCH --constraint=a100        # set to gpu80, a100 or v100
 #SBATCH --gres=gpu:1             # number of gpus per node
-#SBATCH --time=03:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --time=05:00:00          # total run time limit (HH:MM:SS)
 #SBATCH --mail-type=begin        # send email when job begins
 #SBATCH --mail-type=end          # send email when job ends
 #SBATCH --mail-user=efyoung@princeton.edu
@@ -16,5 +16,5 @@ module load anaconda3/2024.2
 conda activate seniorthesis
 
 python main.py --save_model --policy TD3
-python main.py --save_model --policy DDPG
-python main.py --save_model --policy OurDDPG
+# python main.py --save_model --policy DDPG
+# python main.py --save_model --policy OurDDPG
