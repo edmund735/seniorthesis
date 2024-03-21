@@ -1,0 +1,213 @@
+[I 2024-03-20 22:59:38,694] A new study created in memory with name: no-name-4c7b9da4-58ce-485d-bfa4-6730df5012e6
+---------------------------------------
+Policy: TD3, Env: ST_tradingenv/Trading-v0, Seed: 0
+---------------------------------------
+A new study created in memory with name: no-name-4c7b9da4-58ce-485d-bfa4-6730df5012e6
+/home/efyoung/.conda/envs/seniorthesisopt/lib/python3.10/site-packages/optuna/distributions.py:700: UserWarning: The distribution is specified by [2, 100] and step=5, but the range is not divisible by `step`. It will be replaced by [2, 97].
+  warnings.warn(
+/home/efyoung/.conda/envs/seniorthesisopt/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:233: DeprecationWarning: `np.bool8` is a deprecated alias for `np.bool_`.  (Deprecated NumPy 1.24)
+  if not isinstance(terminated, (bool, np.bool8)):
+/home/efyoung/.conda/envs/seniorthesisopt/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:165: UserWarning: [33mWARN: The obs returned by the `step()` method is not within the observation space.[0m
+  logger.warn(f"{pre} is not within the observation space.")
+[I 2024-03-20 23:05:18,643] Trial 1 finished with value: -44710.67875716212 and parameters: {'tau': 0.02773637683691926, 'policy_noise': 0.0008101828875619031, 'noise_clip': 0.02127231096006107, 'policy_freq': 17, 'expl_noise': 0.0006090552529584982}. Best is trial 1 with value: -44710.67875716212.
+Trial 1 finished with value: -44710.67875716212 and parameters: {'tau': 0.02773637683691926, 'policy_noise': 0.0008101828875619031, 'noise_clip': 0.02127231096006107, 'policy_freq': 17, 'expl_noise': 0.0006090552529584982}. Best is trial 1 with value: -44710.67875716212.
+/home/efyoung/.conda/envs/seniorthesisopt/lib/python3.10/site-packages/optuna/distributions.py:700: UserWarning: The distribution is specified by [2, 100] and step=5, but the range is not divisible by `step`. It will be replaced by [2, 97].
+  warnings.warn(
+[I 2024-03-20 23:05:25,227] Trial 2 finished with value: -98907.93939968383 and parameters: {'tau': 0.03495833168322753, 'policy_noise': 0.0007596358229221455, 'noise_clip': 0.004342624953910102, 'policy_freq': 77, 'expl_noise': 0.0030707709589617663}. Best is trial 2 with value: -98907.93939968383.
+Trial 2 finished with value: -98907.93939968383 and parameters: {'tau': 0.03495833168322753, 'policy_noise': 0.0007596358229221455, 'noise_clip': 0.004342624953910102, 'policy_freq': 77, 'expl_noise': 0.0030707709589617663}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:11:01,009] Trial 3 finished with value: -44710.67867512748 and parameters: {'tau': 0.00037294929100028514, 'policy_noise': 0.005154716591625791, 'noise_clip': 0.13472994286221604, 'policy_freq': 7, 'expl_noise': 0.0006961683978348313}. Best is trial 2 with value: -98907.93939968383.
+Trial 3 finished with value: -44710.67867512748 and parameters: {'tau': 0.00037294929100028514, 'policy_noise': 0.005154716591625791, 'noise_clip': 0.13472994286221604, 'policy_freq': 7, 'expl_noise': 0.0006961683978348313}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:11:12,498] Trial 4 finished with value: -44710.67875716212 and parameters: {'tau': 0.021338345343838296, 'policy_noise': 0.00026235985456607035, 'noise_clip': 0.0018670227934817745, 'policy_freq': 12, 'expl_noise': 0.021300593918458784}. Best is trial 2 with value: -98907.93939968383.
+Trial 4 finished with value: -44710.67875716212 and parameters: {'tau': 0.021338345343838296, 'policy_noise': 0.00026235985456607035, 'noise_clip': 0.0018670227934817745, 'policy_freq': 12, 'expl_noise': 0.021300593918458784}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:15:20,509] Trial 0 finished with value: -44688.08874861522 and parameters: {'tau': 0.00133265096523263, 'policy_noise': 0.060126973022207826, 'noise_clip': 0.38515903498605103, 'policy_freq': 87, 'expl_noise': 0.0001312203530814171}. Best is trial 2 with value: -98907.93939968383.
+Trial 0 finished with value: -44688.08874861522 and parameters: {'tau': 0.00133265096523263, 'policy_noise': 0.060126973022207826, 'noise_clip': 0.38515903498605103, 'policy_freq': 87, 'expl_noise': 0.0001312203530814171}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:15:35,860] Trial 7 pruned. 
+Trial 7 pruned. 
+[I 2024-03-20 23:15:50,235] Trial 8 pruned. 
+Trial 8 pruned. 
+[I 2024-03-20 23:16:04,992] Trial 9 pruned. 
+Trial 9 pruned. 
+[I 2024-03-20 23:16:19,690] Trial 10 pruned. 
+Trial 10 pruned. 
+[I 2024-03-20 23:16:25,101] Trial 5 finished with value: -44710.678552075544 and parameters: {'tau': 0.020878582536008314, 'policy_noise': 0.0006846974584491718, 'noise_clip': 0.00972733419882163, 'policy_freq': 72, 'expl_noise': 0.09784001323854782}. Best is trial 2 with value: -98907.93939968383.
+Trial 5 finished with value: -44710.678552075544 and parameters: {'tau': 0.020878582536008314, 'policy_noise': 0.0006846974584491718, 'noise_clip': 0.00972733419882163, 'policy_freq': 72, 'expl_noise': 0.09784001323854782}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:16:38,585] Trial 6 pruned. 
+Trial 6 pruned. 
+[I 2024-03-20 23:16:39,134] Trial 11 pruned. 
+Trial 11 pruned. 
+[I 2024-03-20 23:16:59,956] Trial 14 pruned. 
+Trial 14 pruned. 
+[I 2024-03-20 23:17:09,166] Trial 13 pruned. 
+Trial 13 pruned. 
+[I 2024-03-20 23:17:16,922] Trial 15 pruned. 
+Trial 15 pruned. 
+[I 2024-03-20 23:17:26,186] Trial 16 pruned. 
+Trial 16 pruned. 
+[I 2024-03-20 23:17:34,386] Trial 17 pruned. 
+Trial 17 pruned. 
+[I 2024-03-20 23:21:45,726] Trial 12 pruned. 
+Trial 12 pruned. 
+[I 2024-03-20 23:22:01,815] Trial 20 pruned. 
+Trial 20 pruned. 
+[I 2024-03-20 23:23:02,139] Trial 18 finished with value: -44710.67875716212 and parameters: {'tau': 0.04120982869324869, 'policy_noise': 0.017696968288062023, 'noise_clip': 0.004393386531983809, 'policy_freq': 22, 'expl_noise': 0.0003391583419048864}. Best is trial 2 with value: -98907.93939968383.
+Trial 18 finished with value: -44710.67875716212 and parameters: {'tau': 0.04120982869324869, 'policy_noise': 0.017696968288062023, 'noise_clip': 0.004393386531983809, 'policy_freq': 22, 'expl_noise': 0.0003391583419048864}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:23:08,200] Trial 19 finished with value: -44710.67875716212 and parameters: {'tau': 0.04144332555890033, 'policy_noise': 0.019220231397702153, 'noise_clip': 0.049881926716206906, 'policy_freq': 47, 'expl_noise': 0.010654925260347538}. Best is trial 2 with value: -98907.93939968383.
+Trial 19 finished with value: -44710.67875716212 and parameters: {'tau': 0.04144332555890033, 'policy_noise': 0.019220231397702153, 'noise_clip': 0.049881926716206906, 'policy_freq': 47, 'expl_noise': 0.010654925260347538}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:23:17,842] Trial 22 pruned. 
+Trial 22 pruned. 
+[I 2024-03-20 23:28:12,585] Trial 21 pruned. 
+Trial 21 pruned. 
+[I 2024-03-20 23:29:24,536] Trial 23 finished with value: -44710.67875716212 and parameters: {'tau': 0.011332003683829032, 'policy_noise': 0.001210840316665797, 'noise_clip': 0.001074819772906529, 'policy_freq': 2, 'expl_noise': 0.01598948282202998}. Best is trial 2 with value: -98907.93939968383.
+Trial 23 finished with value: -44710.67875716212 and parameters: {'tau': 0.011332003683829032, 'policy_noise': 0.001210840316665797, 'noise_clip': 0.001074819772906529, 'policy_freq': 2, 'expl_noise': 0.01598948282202998}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:29:31,614] Trial 24 finished with value: -44710.67875716212 and parameters: {'tau': 0.01483660229227399, 'policy_noise': 0.00018079863367617615, 'noise_clip': 0.000730877132417423, 'policy_freq': 2, 'expl_noise': 0.026047265264406518}. Best is trial 2 with value: -98907.93939968383.
+Trial 24 finished with value: -44710.67875716212 and parameters: {'tau': 0.01483660229227399, 'policy_noise': 0.00018079863367617615, 'noise_clip': 0.000730877132417423, 'policy_freq': 2, 'expl_noise': 0.026047265264406518}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:29:49,253] Trial 27 pruned. 
+Trial 27 pruned. 
+[I 2024-03-20 23:34:26,328] Trial 25 finished with value: -44710.67875716212 and parameters: {'tau': 0.015435119711075931, 'policy_noise': 0.0001381648452412899, 'noise_clip': 0.0011898133523459843, 'policy_freq': 2, 'expl_noise': 0.02480021113343001}. Best is trial 2 with value: -98907.93939968383.
+Trial 25 finished with value: -44710.67875716212 and parameters: {'tau': 0.015435119711075931, 'policy_noise': 0.0001381648452412899, 'noise_clip': 0.0011898133523459843, 'policy_freq': 2, 'expl_noise': 0.02480021113343001}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:34:41,039] Trial 29 pruned. 
+Trial 29 pruned. 
+[I 2024-03-20 23:34:56,767] Trial 30 pruned. 
+Trial 30 pruned. 
+[I 2024-03-20 23:35:04,047] Trial 26 finished with value: -44710.67875716212 and parameters: {'tau': 0.002334101653899339, 'policy_noise': 0.00011985415096291492, 'noise_clip': 0.005875321654168878, 'policy_freq': 12, 'expl_noise': 0.03170195188550295}. Best is trial 2 with value: -98907.93939968383.
+Trial 26 finished with value: -44710.67875716212 and parameters: {'tau': 0.002334101653899339, 'policy_noise': 0.00011985415096291492, 'noise_clip': 0.005875321654168878, 'policy_freq': 12, 'expl_noise': 0.03170195188550295}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:35:12,384] Trial 31 pruned. 
+Trial 31 pruned. 
+[I 2024-03-20 23:35:19,862] Trial 32 pruned. 
+Trial 32 pruned. 
+[I 2024-03-20 23:35:30,575] Trial 33 pruned. 
+Trial 33 pruned. 
+[I 2024-03-20 23:35:46,060] Trial 35 pruned. 
+Trial 35 pruned. 
+[I 2024-03-20 23:36:13,310] Trial 28 pruned. 
+Trial 28 pruned. 
+[I 2024-03-20 23:36:30,137] Trial 37 pruned. 
+Trial 37 pruned. 
+[I 2024-03-20 23:40:53,576] Trial 34 finished with value: -44710.67875716212 and parameters: {'tau': 0.034706080611120196, 'policy_noise': 0.014724307226208821, 'noise_clip': 0.02703097691252511, 'policy_freq': 17, 'expl_noise': 0.00036393850793286196}. Best is trial 2 with value: -98907.93939968383.
+Trial 34 finished with value: -44710.67875716212 and parameters: {'tau': 0.034706080611120196, 'policy_noise': 0.014724307226208821, 'noise_clip': 0.02703097691252511, 'policy_freq': 17, 'expl_noise': 0.00036393850793286196}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:41:09,107] Trial 36 finished with value: -44710.67875716212 and parameters: {'tau': 0.01920394236671109, 'policy_noise': 0.12018893493407615, 'noise_clip': 0.011440590460649448, 'policy_freq': 12, 'expl_noise': 0.00045622348280859704}. Best is trial 2 with value: -98907.93939968383.
+Trial 36 finished with value: -44710.67875716212 and parameters: {'tau': 0.01920394236671109, 'policy_noise': 0.12018893493407615, 'noise_clip': 0.011440590460649448, 'policy_freq': 12, 'expl_noise': 0.00045622348280859704}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:41:10,113] Trial 39 pruned. 
+Trial 39 pruned. 
+[I 2024-03-20 23:41:25,629] Trial 40 pruned. 
+Trial 40 pruned. 
+[I 2024-03-20 23:41:27,216] Trial 41 pruned. 
+Trial 41 pruned. 
+[I 2024-03-20 23:41:41,384] Trial 42 pruned. 
+Trial 42 pruned. 
+[I 2024-03-20 23:41:47,348] Trial 43 pruned. 
+Trial 43 pruned. 
+[I 2024-03-20 23:42:01,390] Trial 44 pruned. 
+Trial 44 pruned. 
+[I 2024-03-20 23:42:03,543] Trial 45 pruned. 
+Trial 45 pruned. 
+[I 2024-03-20 23:42:03,747] Trial 38 finished with value: -44445.65809749927 and parameters: {'tau': 0.01796369873915838, 'policy_noise': 0.011307306443734065, 'noise_clip': 0.009805433305091033, 'policy_freq': 37, 'expl_noise': 0.00047197719806821824}. Best is trial 2 with value: -98907.93939968383.
+Trial 38 finished with value: -44445.65809749927 and parameters: {'tau': 0.01796369873915838, 'policy_noise': 0.011307306443734065, 'noise_clip': 0.009805433305091033, 'policy_freq': 37, 'expl_noise': 0.00047197719806821824}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:42:17,964] Trial 46 pruned. 
+Trial 46 pruned. 
+[I 2024-03-20 23:42:22,412] Trial 47 pruned. 
+Trial 47 pruned. 
+[I 2024-03-20 23:42:34,703] Trial 49 pruned. 
+Trial 49 pruned. 
+[I 2024-03-20 23:42:41,448] Trial 50 pruned. 
+Trial 50 pruned. 
+[I 2024-03-20 23:47:54,113] Trial 48 finished with value: -44710.67797783344 and parameters: {'tau': 0.07460601608193441, 'policy_noise': 0.004861713168898053, 'noise_clip': 0.3169254952284097, 'policy_freq': 7, 'expl_noise': 0.004086682032739147}. Best is trial 2 with value: -98907.93939968383.
+Trial 48 finished with value: -44710.67797783344 and parameters: {'tau': 0.07460601608193441, 'policy_noise': 0.004861713168898053, 'noise_clip': 0.3169254952284097, 'policy_freq': 7, 'expl_noise': 0.004086682032739147}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:48:08,346] Trial 51 finished with value: -44710.67875716212 and parameters: {'tau': 0.045623233777318126, 'policy_noise': 0.004854595356936187, 'noise_clip': 0.005047640774988602, 'policy_freq': 7, 'expl_noise': 0.004558310744891603}. Best is trial 2 with value: -98907.93939968383.
+Trial 51 finished with value: -44710.67875716212 and parameters: {'tau': 0.045623233777318126, 'policy_noise': 0.004854595356936187, 'noise_clip': 0.005047640774988602, 'policy_freq': 7, 'expl_noise': 0.004558310744891603}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:50:22,686] Trial 52 pruned. 
+Trial 52 pruned. 
+[I 2024-03-20 23:50:44,270] Trial 55 pruned. 
+Trial 55 pruned. 
+[I 2024-03-20 23:51:00,335] Trial 56 pruned. 
+Trial 56 pruned. 
+[I 2024-03-20 23:51:16,154] Trial 57 pruned. 
+Trial 57 pruned. 
+[I 2024-03-20 23:51:35,215] Trial 58 pruned. 
+Trial 58 pruned. 
+[I 2024-03-20 23:51:50,504] Trial 59 pruned. 
+Trial 59 pruned. 
+[I 2024-03-20 23:53:45,425] Trial 53 finished with value: -44710.67875716212 and parameters: {'tau': 0.041801430585568886, 'policy_noise': 0.00044554624371919674, 'noise_clip': 0.006276447203569804, 'policy_freq': 7, 'expl_noise': 0.015267792289657058}. Best is trial 2 with value: -98907.93939968383.
+Trial 53 finished with value: -44710.67875716212 and parameters: {'tau': 0.041801430585568886, 'policy_noise': 0.00044554624371919674, 'noise_clip': 0.006276447203569804, 'policy_freq': 7, 'expl_noise': 0.015267792289657058}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:54:01,344] Trial 61 pruned. 
+Trial 61 pruned. 
+[I 2024-03-20 23:54:25,217] Trial 54 finished with value: -44710.67875716212 and parameters: {'tau': 0.012354609492723524, 'policy_noise': 0.0010996957378107584, 'noise_clip': 0.0010746573021386794, 'policy_freq': 2, 'expl_noise': 0.04728503689171641}. Best is trial 2 with value: -98907.93939968383.
+Trial 54 finished with value: -44710.67875716212 and parameters: {'tau': 0.012354609492723524, 'policy_noise': 0.0010996957378107584, 'noise_clip': 0.0010746573021386794, 'policy_freq': 2, 'expl_noise': 0.04728503689171641}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-20 23:54:42,369] Trial 63 pruned. 
+Trial 63 pruned. 
+[I 2024-03-20 23:55:00,811] Trial 64 pruned. 
+Trial 64 pruned. 
+[I 2024-03-20 23:58:14,420] Trial 60 finished with value: -44710.67875716212 and parameters: {'tau': 0.022552710784877444, 'policy_noise': 0.00019572989717034876, 'noise_clip': 0.001770685988764475, 'policy_freq': 2, 'expl_noise': 0.03993498502389502}. Best is trial 2 with value: -98907.93939968383.
+Trial 60 finished with value: -44710.67875716212 and parameters: {'tau': 0.022552710784877444, 'policy_noise': 0.00019572989717034876, 'noise_clip': 0.001770685988764475, 'policy_freq': 2, 'expl_noise': 0.03993498502389502}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-21 00:00:29,752] Trial 62 finished with value: -44710.67875716212 and parameters: {'tau': 0.005677671255449006, 'policy_noise': 0.00010112922043823108, 'noise_clip': 0.0002003402580394159, 'policy_freq': 2, 'expl_noise': 0.009928604876463356}. Best is trial 2 with value: -98907.93939968383.
+Trial 62 finished with value: -44710.67875716212 and parameters: {'tau': 0.005677671255449006, 'policy_noise': 0.00010112922043823108, 'noise_clip': 0.0002003402580394159, 'policy_freq': 2, 'expl_noise': 0.009928604876463356}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-21 00:01:08,998] Trial 65 finished with value: -44710.67875716212 and parameters: {'tau': 0.028633957882249206, 'policy_noise': 0.00022587679248987607, 'noise_clip': 0.00046609009884424096, 'policy_freq': 2, 'expl_noise': 0.021069731376971615}. Best is trial 2 with value: -98907.93939968383.
+Trial 65 finished with value: -44710.67875716212 and parameters: {'tau': 0.028633957882249206, 'policy_noise': 0.00022587679248987607, 'noise_clip': 0.00046609009884424096, 'policy_freq': 2, 'expl_noise': 0.021069731376971615}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-21 00:03:41,670] Trial 66 pruned. 
+Trial 66 pruned. 
+[I 2024-03-21 00:03:57,914] Trial 69 pruned. 
+Trial 69 pruned. 
+[I 2024-03-21 00:05:34,760] Trial 70 pruned. 
+Trial 70 pruned. 
+[I 2024-03-21 00:05:50,033] Trial 71 pruned. 
+Trial 71 pruned. 
+[I 2024-03-21 00:06:02,271] Trial 67 pruned. 
+Trial 67 pruned. 
+[I 2024-03-21 00:06:30,646] Trial 68 pruned. 
+Trial 68 pruned. 
+[I 2024-03-21 00:08:37,726] Trial 73 pruned. 
+Trial 73 pruned. 
+[I 2024-03-21 00:08:54,271] Trial 75 pruned. 
+Trial 75 pruned. 
+[I 2024-03-21 00:09:12,664] Trial 76 pruned. 
+Trial 76 pruned. 
+[I 2024-03-21 00:09:27,781] Trial 77 pruned. 
+Trial 77 pruned. 
+[I 2024-03-21 00:10:56,173] Trial 74 finished with value: 66.1670509415209 and parameters: {'tau': 0.020329595255013863, 'policy_noise': 0.00015961489713026353, 'noise_clip': 0.001426120676685488, 'policy_freq': 7, 'expl_noise': 0.02724512682508544}. Best is trial 2 with value: -98907.93939968383.
+Trial 74 finished with value: 66.1670509415209 and parameters: {'tau': 0.020329595255013863, 'policy_noise': 0.00015961489713026353, 'noise_clip': 0.001426120676685488, 'policy_freq': 7, 'expl_noise': 0.02724512682508544}. Best is trial 2 with value: -98907.93939968383.
+[I 2024-03-21 00:11:11,182] Trial 79 pruned. 
+Trial 79 pruned. 
+[I 2024-03-21 00:11:19,463] Trial 72 pruned. 
+Trial 72 pruned. 
+[I 2024-03-21 00:11:35,658] Trial 81 pruned. 
+Trial 81 pruned. 
+[I 2024-03-21 00:11:51,258] Trial 82 pruned. 
+Trial 82 pruned. 
+[I 2024-03-21 00:12:08,171] Trial 83 pruned. 
+Trial 83 pruned. 
+[I 2024-03-21 00:14:06,897] Trial 84 pruned. 
+Trial 84 pruned. 
+[I 2024-03-21 00:14:57,038] Trial 85 pruned. 
+Trial 85 pruned. 
+[I 2024-03-21 00:15:37,148] Trial 78 finished with value: -99983.23787863964 and parameters: {'tau': 0.013798591243260227, 'policy_noise': 0.025387717044536098, 'noise_clip': 0.000967311592114294, 'policy_freq': 32, 'expl_noise': 0.00016047775332469314}. Best is trial 78 with value: -99983.23787863964.
+Trial 78 finished with value: -99983.23787863964 and parameters: {'tau': 0.013798591243260227, 'policy_noise': 0.025387717044536098, 'noise_clip': 0.000967311592114294, 'policy_freq': 32, 'expl_noise': 0.00016047775332469314}. Best is trial 78 with value: -99983.23787863964.
+[I 2024-03-21 00:16:35,587] Trial 80 finished with value: -44710.678223937204 and parameters: {'tau': 0.0009821038513519872, 'policy_noise': 0.00010076532893309653, 'noise_clip': 0.00036050785123884117, 'policy_freq': 32, 'expl_noise': 0.00016384557233912325}. Best is trial 78 with value: -99983.23787863964.
+Trial 80 finished with value: -44710.678223937204 and parameters: {'tau': 0.0009821038513519872, 'policy_noise': 0.00010076532893309653, 'noise_clip': 0.00036050785123884117, 'policy_freq': 32, 'expl_noise': 0.00016384557233912325}. Best is trial 78 with value: -99983.23787863964.
+[I 2024-03-21 00:16:50,668] Trial 88 pruned. 
+Trial 88 pruned. 
+[I 2024-03-21 00:17:05,637] Trial 89 pruned. 
+Trial 89 pruned. 
+[I 2024-03-21 00:17:20,550] Trial 90 pruned. 
+Trial 90 pruned. 
+[I 2024-03-21 00:18:11,795] Trial 86 pruned. 
+Trial 86 pruned. 
+[I 2024-03-21 00:18:54,206] Trial 91 pruned. 
+Trial 91 pruned. 
+[I 2024-03-21 00:20:23,112] Trial 93 pruned. 
+Trial 93 pruned. 
+[I 2024-03-21 00:20:38,723] Trial 94 pruned. 
+Trial 94 pruned. 
+[I 2024-03-21 00:21:20,907] Trial 87 finished with value: -44709.954812307806 and parameters: {'tau': 0.010778678130603162, 'policy_noise': 0.04439194441592326, 'noise_clip': 0.000700660347727567, 'policy_freq': 32, 'expl_noise': 0.0002518813367685539}. Best is trial 78 with value: -99983.23787863964.
+Trial 87 finished with value: -44709.954812307806 and parameters: {'tau': 0.010778678130603162, 'policy_noise': 0.04439194441592326, 'noise_clip': 0.000700660347727567, 'policy_freq': 32, 'expl_noise': 0.0002518813367685539}. Best is trial 78 with value: -99983.23787863964.
+[I 2024-03-21 00:22:09,453] Trial 96 pruned. 
+Trial 96 pruned. 
+[I 2024-03-21 00:22:37,580] Trial 95 pruned. 
+Trial 95 pruned. 
+[I 2024-03-21 00:22:45,908] Trial 92 finished with value: 66.1670509415209 and parameters: {'tau': 0.007314517176651004, 'policy_noise': 0.01758013159396501, 'noise_clip': 0.0007307395976452467, 'policy_freq': 7, 'expl_noise': 0.00024008758891161074}. Best is trial 78 with value: -99983.23787863964.
+Trial 92 finished with value: 66.1670509415209 and parameters: {'tau': 0.007314517176651004, 'policy_noise': 0.01758013159396501, 'noise_clip': 0.0007307395976452467, 'policy_freq': 7, 'expl_noise': 0.00024008758891161074}. Best is trial 78 with value: -99983.23787863964.
+[I 2024-03-21 00:23:02,771] Trial 99 pruned. 
+Trial 99 pruned. 
+[I 2024-03-21 00:26:07,124] Trial 97 finished with value: -44710.67875716212 and parameters: {'tau': 0.026795947442167893, 'policy_noise': 0.0003283334653557134, 'noise_clip': 0.006377559297285071, 'policy_freq': 27, 'expl_noise': 0.023570356330279287}. Best is trial 78 with value: -99983.23787863964.
+Trial 97 finished with value: -44710.67875716212 and parameters: {'tau': 0.026795947442167893, 'policy_noise': 0.0003283334653557134, 'noise_clip': 0.006377559297285071, 'policy_freq': 27, 'expl_noise': 0.023570356330279287}. Best is trial 78 with value: -99983.23787863964.
+[I 2024-03-21 00:26:16,242] Trial 98 finished with value: -44710.67875716212 and parameters: {'tau': 0.02736934317103836, 'policy_noise': 0.00036785608612988204, 'noise_clip': 0.0010398929192300692, 'policy_freq': 7, 'expl_noise': 0.057467580586212305}. Best is trial 78 with value: -99983.23787863964.
+Trial 98 finished with value: -44710.67875716212 and parameters: {'tau': 0.02736934317103836, 'policy_noise': 0.00036785608612988204, 'noise_clip': 0.0010398929192300692, 'policy_freq': 7, 'expl_noise': 0.057467580586212305}. Best is trial 78 with value: -99983.23787863964.
