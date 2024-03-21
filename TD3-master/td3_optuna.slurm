@@ -15,4 +15,4 @@ module purge
 module load anaconda3/2024.2
 conda activate seniorthesisopt
 
-python td3_optuna.py --max_timesteps 250000
+python td3_optuna.py --max_timesteps 25000
