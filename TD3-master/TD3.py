@@ -30,7 +30,8 @@ class Actor(nn.Module):
 
 		# print(f"Tanh: {torch.tanh(self.l3(a))}")
 		# print((self.total_q - state[0,-1]) * torch.tanh(self.l3(a)))
-		return (self.total_q - state[0,-1]) * torch.tanh(self.l3(a)) # ensure action is less than rem quant
+		# return (self.total_q - state[0,-2]) * torch.tanh(self.l3(a)) # ensure action is less than rem quant
+		return self.max_action * torch.tanh(self.l3(a))
 
 
 class Critic(nn.Module):
@@ -81,16 +82,18 @@ class TD3(object):
 		tau=0.005,
 		policy_noise=0.2,
 		noise_clip=0.5,
-		policy_freq=2
+		policy_freq=2,
+		actor_lr = 3e-4,
+		critic_lr = 3e-4,
 	):
 
 		self.actor = Actor(state_dim, action_dim, max_action, total_q).to(device)
 		self.actor_target = copy.deepcopy(self.actor)
-		self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), lr=3e-4)
+		self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), lr=actor_lr)
 
 		self.critic = Critic(state_dim, action_dim).to(device)
 		self.critic_target = copy.deepcopy(self.critic)
-		self.critic_optimizer = torch.optim.Adam(self.critic.parameters(), lr=3e-4)
+		self.critic_optimizer = torch.optim.Adam(self.critic.parameters(), lr=critic_lr)
 
 		self.max_action = max_action
 		self.discount = discount

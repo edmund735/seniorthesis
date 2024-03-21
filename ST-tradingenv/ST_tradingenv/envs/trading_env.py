@@ -9,7 +9,7 @@ class TradingEnv(gym.Env):
 
     def __init__(self,
                  render_mode=None,
-                 T = 100.,
+                 # T = 100.,
                  tau = 10.,
                  lamb = 0.001,
                  gamma = 0.01,
@@ -19,7 +19,7 @@ class TradingEnv(gym.Env):
                  end_pos = 1000.,
                  S0 = 10.):
         
-        self.T = T
+        # self.T = T
         self.lamb = lamb
         self.gamma = gamma
         self.sigma = sigma
@@ -29,12 +29,12 @@ class TradingEnv(gym.Env):
         self.end_pos = end_pos
         self.S0 = S0 # asset price
 
-        self.observation_space = spaces.Box(low = np.array([-np.inf, -np.inf, -np.inf, -np.inf, 0., 0.]), high = np.array([np.inf, np.inf, np.inf, np.inf, T, max(self.init_pos, self.end_pos)]), dtype = np.float64)
+        self.observation_space = spaces.Box(low = np.array([-np.inf, -np.inf, -np.inf, -np.inf, 0.]), high = np.array([np.inf, np.inf, np.inf, np.inf, max(self.init_pos, self.end_pos)]), dtype = np.float32)
 
-        self.action_space = spaces.Box(low = 0., high = max(self.init_pos, self.end_pos), shape = (1,), dtype = np.float64)
+        self.action_space = spaces.Box(low = 0., high = max(self.init_pos, self.end_pos), shape = (1,), dtype = np.float32)
 
     def _get_obs(self):
-        return np.array([self.J, self.I, self.alpha, self.P, self.T_rem, self.Q])
+        return np.array([self.J, self.I, self.alpha, self.P, self.Q], dtype = np.float32)
 
     def _get_info(self):
         return {}
@@ -43,7 +43,7 @@ class TradingEnv(gym.Env):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
 
-        self.T_rem = self.T
+        # self.T_rem = self.T
         self.J = 0. # EWMA of past and current order flow
         self.I = 0. # price impact
         self.alpha = 0. # forecast
@@ -71,10 +71,10 @@ class TradingEnv(gym.Env):
         self.S += self.alpha + self.sigma * self.np_random.standard_normal()
         self.P = self.S + self.I
         self.Q += action
-        self.T_rem -= 1
+        # self.T_rem -= 1
 
         # An episode is done iff the agent has reached the target
-        terminated = True if self.Q >= self.end_pos or self.T_rem <= 0 else False
+        terminated = True if self.Q >= self.end_pos else False
         if self.Q - self.end_pos >= 1:
             reward = -99999
         else:

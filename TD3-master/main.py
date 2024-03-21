@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import gymnasium as gym
+from gymnasium.wrappers import TimeAwareObservation
 import argparse
 import os
 import ST_tradingenv
@@ -26,6 +27,8 @@ def print_bad_obs(action, state):
 # A fixed seed is used for the eval environment
 def eval_policy(policy, env_name, seed, eval_episodes=10):
 	eval_env = gym.make(env_name)
+	eval_env = TimeAwareObservation(eval_env)
+	eval_env.reset(seed = seed + 100)
 
 	avg_reward = 0.
 	for _ in range(eval_episodes):
@@ -87,7 +90,7 @@ if __name__ == "__main__":
 		os.makedirs("./models")
 
 	env_kwargs = {
-		"T": args.T,
+		# "T": args.T,
 		"tau": args.impact_decay,
 		"lamb": args.lamb,
 		"gamma": 0.01,
@@ -98,6 +101,7 @@ if __name__ == "__main__":
 		"S0": 10.
 		}
 	env = gym.make(args.env, **env_kwargs)
+	env = TimeAwareObservation(env)
 
 	# Set seeds
 	# print(env.reset(seed = args.seed))
@@ -139,6 +143,116 @@ if __name__ == "__main__":
 	# Evaluate untrained policy
 	evaluations = [eval_policy(policy, args.env, args.seed)]
 
+	# def objective(config):  # ①
+	# 	kwargs = {
+	# 		"state_dim": state_dim,
+	# 		"action_dim": action_dim,
+	# 		"max_action": max_action,
+	# 		"discount": args.discount,
+	# 		"tau": config["tau"],
+	# 		"total_q": max(args.init_position, args.end_position)
+	# 	}
+	# 	kwargs["policy_noise"] = config["policy_noise"] * max_action
+	# 	kwargs["noise_clip"] = config["noise_clip"] * max_action
+	# 	kwargs["policy_freq"] = config["policy_freq"]
+	# 	kwargs["actor_lr"] = config["actor_lr"]
+	# 	kwargs["critic_lr"] = config["critic_lr"]
+	# 	policy = TD3.TD3(**kwargs)
+
+	# 	while True:
+	# 		evaluations = [eval_policy(policy, args.env, args.seed)]
+	# 		replay_buffer = utils.ReplayBuffer(state_dim, action_dim)
+
+	# 		state, done = env.reset(seed = args.seed)[0], False
+
+	# 		episode_reward = 0
+	# 		episode_timesteps = 0
+	# 		episode_num = 0
+	# 		q_rem = max(args.init_position, args.end_position)
+
+	# 		for t in range(int(args.max_timesteps)):
+				
+	# 			episode_timesteps += 1
+
+	# 			# Select action randomly or according to policy
+	# 			if t < args.start_timesteps:
+	# 				action = env.np_random.uniform(low = 0, high = max_action, size = action_dim)
+	# 			else:
+	# 				action = (
+	# 					policy.select_action(np.array(state))
+	# 					+ env.np_random.normal(0, max_action * args.expl_noise, size=action_dim)
+	# 				).clip(0, max_action)
+	# 				# print(policy.select_action(np.array(state)))
+	# 				# print(env.np_random.normal(0, q_rem * args.expl_noise, size=action_dim))
+
+	# 			# Perform action
+	# 			next_state, reward, terminated, truncated, _ = env.step(action)
+	# 			# print_bad_obs(action, next_state)
+	# 			q_rem -= action[0]
+	# 			done = terminated or truncated
+	# 			done_bool = float(done) # if episode_timesteps < env._max_episode_steps else 0
+
+	# 			# Store data in replay buffer
+	# 			# print(t, args.start_timesteps)
+	# 			# print(f"State: {state}")
+	# 			# print(f"Action: {action}")
+	# 			# print(f"Next state: {next_state}")
+	# 			replay_buffer.add(state, action, next_state, reward, done_bool)
+
+	# 			state = next_state
+	# 			episode_reward += reward
+
+	# 			# Train agent after collecting sufficient data
+	# 			if t >= args.start_timesteps:
+	# 				policy.train(replay_buffer, args.batch_size)
+
+	# 			if done: 
+	# 				# +1 to account for 0 indexing. +0 on ep_timesteps since it will increment +1 even if done=True
+	# 				# print(f"Total T: {t+1} Episode Num: {episode_num+1} Episode T: {episode_timesteps} Reward: {episode_reward:.3f}")
+	# 				# Reset environment
+	# 				state, done = env.reset()[0], False
+	# 				episode_reward = 0
+	# 				episode_timesteps = 0
+	# 				episode_num += 1
+	# 				q_rem = max(args.init_position, args.end_position)
+
+	# 			# Evaluate episode
+	# 			if (t + 1) % args.eval_freq == 0:
+	# 				evaluations.append(eval_policy(policy, args.env, args.seed))
+	# 				np.save(f"./results/{file_name}", evaluations)
+	# 				if args.save_model: policy.save(f"./models/{file_name}")
+	# 		acc = evaluations[-1]  # Compute test accuracy
+	# 		train.report({"reward": acc})  # Report to Tune
+
+
+	# search_space = {
+	# 	"tau": tune.loguniform(1e-4, 1e-2),
+	# 	"policy_noise": tune.loguniform(1e-4, 0.5),
+	# 	"noise_clip": tune.loguniform(1e-4, 0.9),
+	# 	"policy_freq": tune.uniform(2, 100),
+	# 	"actor_lr": tune.loguniform(1e-5, 0.1),
+	# 	"critic_lr": tune.loguniform(1e-5, 0.1)
+	# 	}
+	# algo = OptunaSearch()  # ②
+
+	# tuner = tune.Tuner(  # ③
+	# 	objective,
+	# 	tune_config=tune.TuneConfig(
+	# 		metric="mean_accuracy",
+	# 		mode="max",
+	# 		search_alg=algo,
+	# 	),
+	# 	run_config=train.RunConfig(
+	# 		stop={"training_iteration": 5},
+	# 	),
+	# 	param_space=search_space,
+	# )
+	# results = tuner.fit()
+	# print("Best config is:", results.get_best_result().config)
+
+
+
+
 	state, done = env.reset(seed = args.seed)[0], False
 
 	episode_reward = 0
@@ -152,12 +266,12 @@ if __name__ == "__main__":
 
 		# Select action randomly or according to policy
 		if t < args.start_timesteps:
-			action = env.np_random.uniform(low = 0, high = q_rem, size = action_dim)
+			action = env.np_random.uniform(low = 0, high = max_action, size = action_dim)
 		else:
 			action = (
 				policy.select_action(np.array(state))
-				+ env.np_random.normal(0, q_rem * args.expl_noise, size=action_dim)
-			).clip(0, q_rem)
+				+ env.np_random.normal(0, max_action * args.expl_noise, size=action_dim)
+			).clip(0, max_action)
 			# print(policy.select_action(np.array(state)))
 			# print(env.np_random.normal(0, q_rem * args.expl_noise, size=action_dim))
 
@@ -166,7 +280,7 @@ if __name__ == "__main__":
 		# print_bad_obs(action, next_state)
 		q_rem -= action[0]
 		done = terminated or truncated
-		done_bool = float(done)#  if episode_timesteps < env._max_episode_steps else 0
+		done_bool = float(done) # if episode_timesteps < env._max_episode_steps else 0
 
 		# Store data in replay buffer
 		# print(t, args.start_timesteps)
