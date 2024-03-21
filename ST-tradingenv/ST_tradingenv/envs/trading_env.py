@@ -29,9 +29,9 @@ class TradingEnv(gym.Env):
         self.end_pos = end_pos
         self.S0 = S0 # asset price
 
-        self.observation_space = spaces.Box(low = np.array([-np.inf, -np.inf, -np.inf, -np.inf, 0.]), high = np.array([np.inf, np.inf, np.inf, np.inf, max(self.init_pos, self.end_pos)]), dtype = np.float32)
+        self.observation_space = spaces.Box(low = np.array([-self.end_pos, -np.sqrt(self.end_pos), -100, -np.inf, 0.]), high = np.array([self.end_pos, np.sqrt(self.end_pos), 100, np.inf, max(self.init_pos, self.end_pos)]), dtype = np.float32)
 
-        self.action_space = spaces.Box(low = 0., high = max(self.init_pos, self.end_pos), shape = (1,), dtype = np.float32)
+        self.action_space = spaces.Box(low = 0., high = self.end_pos, shape = (1,), dtype = np.float32)
 
     def _get_obs(self):
         return np.array([self.J, self.I, self.alpha, self.P, self.Q], dtype = np.float32)

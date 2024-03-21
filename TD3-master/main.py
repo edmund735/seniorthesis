@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import gymnasium as gym
-from gymnasium.wrappers import TimeAwareObservation
+from gymnasium.wrappers import TimeAwareObservation, RescaleAction, NormalizeObservation
 import argparse
 import os
 import ST_tradingenv
@@ -27,7 +27,8 @@ def print_bad_obs(action, state):
 # A fixed seed is used for the eval environment
 def eval_policy(policy, env_name, seed, eval_episodes=10):
 	eval_env = gym.make(env_name)
-	eval_env = TimeAwareObservation(eval_env)
+	eval_env = NormalizeObservation(RescaleAction(TimeAwareObservation(eval_env), min_action = -1., max_action = 1.))
+
 	eval_env.reset(seed = seed + 100)
 
 	avg_reward = 0.
@@ -80,7 +81,7 @@ if __name__ == "__main__":
 	file_name = f"{args.policy}_{args.env.rsplit('/', 1)[-1]}_{args.seed}"
 
 	print("---------------------------------------")
-	print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}")
+	print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}, Tau: {args.tau}, Expl Noise: {args.expl_noise}, Batch size: {args.batch_size}, Policy noise: {args.policy_noise}, Noise clip: {args.noise_clip}, Policy freq: {args.policy_freq}")
 	print("---------------------------------------")
 
 	if not os.path.exists("./results"):
@@ -101,7 +102,7 @@ if __name__ == "__main__":
 		"S0": 10.
 		}
 	env = gym.make(args.env, **env_kwargs)
-	env = TimeAwareObservation(env)
+	env = NormalizeObservation(RescaleAction(TimeAwareObservation(env), min_action = -1., max_action = 1.))
 
 	# Set seeds
 	# print(env.reset(seed = args.seed))
