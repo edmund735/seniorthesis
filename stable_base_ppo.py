@@ -2,13 +2,13 @@ import gymnasium as gym
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
-import ST_tradingenv
+from trading_env import TradingEnv
 
 # Parallel environments
-vec_env = make_vec_env('ST_tradingenv/Trading-v0', n_envs=4)
+vec_env = make_vec_env(TradingEnv, n_envs=4)
 
 model = PPO("MlpPolicy", vec_env, verbose=1)
-model.learn(total_timesteps=25000)
+model.learn(total_timesteps=100_000)
 model.save("ppo_test")
 
 del model # remove to demonstrate saving and loading
