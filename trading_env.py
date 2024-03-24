@@ -79,7 +79,6 @@ class TradingEnv(gym.Env):
     
 
     def step(self, action):
-
         assert self.T_rem is not None, "You must call reset() before step()"
         if self.T_rem <= 0:
             logger.warn("This episode has already terminated. Please call reset() before step()")
