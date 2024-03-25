@@ -1,5 +1,6 @@
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
+from stable_baselines3.common.vec_env import VecNormalize
 from trading_env import TradingEnv
 import numpy as np
 from stable_baselines3.common.evaluation import evaluate_policy
@@ -17,41 +18,43 @@ params = {
     'S0': 10,
 }
 
-env = TradingEnv(**params)
+vec_env = make_vec_env(TradingEnv, n_envs = 8, seed = 29, env_kwargs = params)
+vec_env = VecNormalize(vec_env, norm_obs = True, norm_reward = True, gamma = 1)
 
-# Create log dir where evaluation results will be saved
-eval_log_dir = "./eval_logs/"
-os.makedirs(eval_log_dir, exist_ok=True)
+# env = TradingEnv(**params)
 
-# Separate evaluation env, with different parameters passed via env_kwargs
-# Eval environments can be vectorized to speed up evaluation.
-eval_env = TradingEnv(**params)
-# Create callback that evaluates agent for 5 episodes every 500 training environment steps.
-# When using multiple training environments, agent will be evaluated every
-# eval_freq calls to train_env.step(), thus it will be evaluated every
-# (eval_freq * n_envs) training steps. See EvalCallback doc for more information.
-eval_callback = EvalCallback(eval_env, best_model_save_path=eval_log_dir,
-                              log_path=eval_log_dir, eval_freq=100,
-                              n_eval_episodes=10, deterministic=True,
-                              render=False)
+# # Create log dir where evaluation results will be saved
+# eval_log_dir = "./eval_logs/"
+# os.makedirs(eval_log_dir, exist_ok=True)
 
-model = PPO('MlpPolicy', env, gamma = 1, verbose=2, seed = 29)
-model.learn(1_000_000, progress_bar = True, callback = eval_callback)
-model.save('ppo_test')
+# # Separate evaluation env, with different parameters passed via env_kwargs
+# # Eval environments can be vectorized to speed up evaluation.
+# eval_env = TradingEnv(**params)
+# # Create callback that evaluates agent for 5 episodes every 500 training environment steps.
+# # When using multiple training environments, agent will be evaluated every
+# # eval_freq calls to train_env.step(), thus it will be evaluated every
+# # (eval_freq * n_envs) training steps. See EvalCallback doc for more information.
+# eval_callback = EvalCallback(eval_env, best_model_save_path=eval_log_dir,
+#                               log_path=eval_log_dir, eval_freq=100,
+#                               n_eval_episodes=10, deterministic=True,
+#                               render=False)
 
-### Evaluation
-results = evaluate_policy(model,
-                env,
-                n_eval_episodes = 10_000,
-                deterministic=True,
-                reward_threshold = 100,
-                return_episode_rewards=True,
-                warn = True)
-print(results)
+# model = PPO('MlpPolicy', env, gamma = 1, verbose=2, seed = 29)
+# model.learn(1_000_000, progress_bar = True, callback = eval_callback)
+# model.save('ppo_test')
+
+# ### Evaluation
+# results = evaluate_policy(model,
+#                 env,
+#                 n_eval_episodes = 10_000,
+#                 deterministic=True,
+#                 reward_threshold = 100,
+#                 return_episode_rewards=True,
+#                 warn = True)
+# print(results)
 
 
-# Parallel environments
-# vec_env = make_vec_env(makeEnv, n_envs=48)
+
 
 # model = PPO("MlpPolicy", vec_env, learning_rate = 0.001, clip_range = 0.3, verbose=2)
 # model.learn(total_timesteps=100_000, progress_bar = True)
