@@ -253,3 +253,18 @@ def plot_multi_results(f_title, df, ncols = 2, save_fig=False, fpath=""):
         fig.savefig(fpath, bbox_inches='tight')
 
     return fig
+
+def const_num_alpha_only_buy(p, rem_t, rem_q, alpha, **kwargs):
+    '''
+    Calculates the number of shares to trade for constant fraction plus alpha (can only buy)
+    '''
+
+    x = np.maximum(rem_q/rem_t + p * alpha, 0)
+    return np.minimum(x, rem_q)
+
+def const_num_alpha_only_sell(p, rem_t, rem_q, alpha, **kwargs):
+    '''
+    Calculates the number of shares to trade for constant fraction plus alpha (can only sell)
+    '''
+    x = np.minimum(rem_q/rem_t + p * alpha, 0)
+    return np.maximum(x, rem_q)
