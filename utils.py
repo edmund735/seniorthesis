@@ -47,25 +47,28 @@ def sim_MC(funct, # function that determines # of shares to trade at each time s
 
     rng = np.random.default_rng(seed)
 
-    J = np.zeros((n_MC, T+1)) # EWMA of cumulative order flow
-    I = np.zeros((n_MC, T+1)) # price impact
+    J = np.zeros((n_MC, T)) # EWMA of cumulative order flow
+    I = np.zeros((n_MC, T)) # price impact
     Q = np.zeros((n_MC, T+1)) # position
     Y = np.zeros((n_MC, T+1)) # P&L
     alpha = np.zeros((n_MC, T)) # alpha signal
     S = np.zeros((n_MC, T+1)) # unperturbed price
-    P = np.zeros((n_MC, T+1)) # perturbed price
+    P = np.zeros((n_MC, T)) # perturbed price
     x = np.zeros((n_MC, T)) # trade quantity
 
     # Initialize starting values
     Q[:,0] = init_q
     Y[:,0] = init_q * S0
     S[:,0] = S0
-    P[:,0] = S0
     
     # key_args['tot_q'] = end_pos - init_pos
     # key_args['t_steps'] = T
 
     for i in range(T):
+        # print(f"\ni: {i}")
+        # print(f"S: {S[:,i]}")
+        # print(f"Q: {Q[:,i]}")
+        # print(f"Y: {Y[:,i]}")
         if i == 0:
             alpha[:,i] = rng.normal(scale = gamma, size = n_MC)
         else:
@@ -80,18 +83,32 @@ def sim_MC(funct, # function that determines # of shares to trade at each time s
             # input function gives execution price as function of quantity,
             # need to know decay function, alpha, how long it decays
             x[:,i] = funct(*pos_args, **key_args)
+        
+        # print(f"x: {x[:,i]}")
 
-        # Update variables
-        J[:,i+1] = np.exp(-1/tau) * J[:,i] + x[:,i]
-        if c == 0.5:
-            I[:,i+1] = lamb * np.sign(J[:,i+1]) * np.sqrt(abs(J[:,i+1]))
+        # Calculate impact and perturbed price
+        if i == 0:
+            J[:,i] = x[:,i]
         else:
-            I[:,i+1] = lamb * np.sign(J[:,i+1]) * abs(J[:,i+1]) ** c
+            J[:,i] = np.exp(-1/tau) * J[:,i-1] + x[:,i]
+        if c == 0.5:
+            I[:,i] = lamb * np.sign(J[:,i]) * np.sqrt(abs(J[:,i]))
+        else:
+            I[:,i] = lamb * np.sign(J[:,i]) * abs(J[:,i]) ** c
+        P[:,i] = S[:,i] + I[:,i]
+
+        # Calculate for next time step
         S[:,i+1] = S[:,i] + alpha[:,i] + rng.normal(scale = sigma, size = n_MC)
-        P[:,i+1] = S[:,i+1] + I[:,i+1]
         Q[:,i+1] = Q[:,i] + x[:,i]
         Y[:,i+1] = Y[:,i] - x[:,i] * I[:,i] + Q[:,i+1] * (S[:,i+1]-S[:,i])
         
+    #     print(f"J: {J[:,i]}")
+    #     print(f"I: {I[:,i]}")
+    #     print(f"P: {P[:,i]}")
+    
+    # print(f"final S: {S[:,i+1]}")
+    # print(f"final Q: {Q[:,i+1]}")
+    # print(f"final Y: {Y[:,i+1]}")
 
     # Take mean over all MC simulations
     avg_x = np.mean(x, axis = 0)
@@ -102,18 +119,18 @@ def sim_MC(funct, # function that determines # of shares to trade at each time s
     # avg_I = np.mean(I, axis = 0)
     avg_I = lamb * np.sign(avg_J)* abs(avg_J)**c
     avg_S = np.mean(S, axis = 0)
-    avg_P = avg_S + avg_I
+    avg_P = avg_S[:-1] + avg_I
     
     
     data = pd.DataFrame({
         'J': avg_J,
         'I': avg_I,
-        'S': avg_S,
         'P': avg_P,
-        'Q': avg_Q,
-        'Y': avg_Y,
+        'x': avg_x,
+        'alpha': avg_alpha
         })
-    data = pd.concat([data, pd.DataFrame({'x': avg_x, 'alpha': avg_alpha})], axis = 1)
+    
+    data = pd.concat([data, pd.DataFrame({'S': avg_S, 'Q': avg_Q,'Y': avg_Y})], axis = 1)
     return data
 
 
@@ -268,3 +285,19 @@ def const_num_alpha_only_sell(p, rem_t, rem_q, alpha, **kwargs):
     '''
     x = np.minimum(rem_q/rem_t + p * alpha, 0)
     return np.maximum(x, rem_q)
+
+# params = {
+#     'init_q': 1000,
+#     'target_q': 0,
+#     'c': 0.5,
+#     'lamb': 0.01,
+#     'tau': 10,
+#     'theta': 5,
+#     'gamma': 0.02,
+#     'T': 2,
+#     'sigma': 0.1,
+#     'n_MC': 3,
+# }
+
+# frac = 1000
+# print(sim_MC(const_num_alpha_only_sell, key_args = {'p': frac}, **params))
