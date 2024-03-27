@@ -7,11 +7,11 @@ from matplotlib.lines import Line2D
 import math
 
 # matplotlib.use("pgf")
-# plt.rcParams['pgf.texsystem'] = "pdflatex"
-# plt.rcParams['savefig.format'] = 'pgf'
+plt.rcParams['pgf.texsystem'] = "pdflatex"
+plt.rcParams['savefig.format'] = 'pgf'
 plt.rcParams['savefig.dpi'] = 300
 plt.rcParams['font.family'] = 'serif'
-# plt.rcParams['pgf.rcfonts'] = False
+plt.rcParams['pgf.rcfonts'] = False
 plt.rcParams['figure.figsize'] = [8, 6]
 plt.rcParams['axes.titlesize'] = 20
 plt.rcParams['axes.labelsize'] = 20
