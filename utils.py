@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import math
 
-matplotlib.use("pgf")
-plt.rcParams['pgf.texsystem'] = "pdflatex"
-plt.rcParams['savefig.format'] = 'pgf'
+# matplotlib.use("pgf")
+# plt.rcParams['pgf.texsystem'] = "pdflatex"
+# plt.rcParams['savefig.format'] = 'pgf'
 plt.rcParams['savefig.dpi'] = 300
 plt.rcParams['font.family'] = 'serif'
-plt.rcParams['pgf.rcfonts'] = False
+# plt.rcParams['pgf.rcfonts'] = False
 plt.rcParams['figure.figsize'] = [8, 6]
 plt.rcParams['axes.titlesize'] = 20
 plt.rcParams['axes.labelsize'] = 20
@@ -174,10 +174,10 @@ def plot_results(f_title, df, save_fig = False, fpath = ""):
     fig.suptitle(f"{f_title}", fontsize=24, fontweight = "heavy")
 
     # Adjust layout to prevent clipping of titles
-    plt.tight_layout()
+    fig.tight_layout()
 
     # Adjust layout to prevent clipping of titles
-    plt.subplots_adjust(top=0.9, wspace=0.3, hspace=0.5)
+    fig.subplots_adjust(top=0.9, wspace=0.3, hspace=0.5)
 
     # Save figure
     if save_fig:
@@ -260,10 +260,10 @@ def plot_multi_results(f_title, df, ncols = 2, save_fig=False, fpath=""):
     fig.suptitle(f"{f_title}", fontsize=24, fontweight="heavy")
 
     # Adjust layout to prevent clipping of titles
-    plt.tight_layout()
+    fig.tight_layout()
 
     # Adjust layout to prevent clipping of titles
-    plt.subplots_adjust(top=0.9, wspace=0.3, hspace=0.5)
+    fig.subplots_adjust(top=0.9, wspace=0.3, hspace=0.5)
 
     # Save figure
     if save_fig:
