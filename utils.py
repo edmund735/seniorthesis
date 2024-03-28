@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import math
 
-# matplotlib.use("pgf")
+matplotlib.use("pgf")
 plt.rcParams['pgf.texsystem'] = "pdflatex"
 plt.rcParams['savefig.format'] = 'pgf'
 plt.rcParams['savefig.dpi'] = 300
@@ -116,10 +116,9 @@ def sim_MC(funct, # function that determines # of shares to trade at each time s
     avg_Y = np.mean(Y, axis = 0)
     avg_alpha = np.mean(alpha, axis = 0)
     avg_J = np.mean(J, axis = 0)
-    # avg_I = np.mean(I, axis = 0)
-    avg_I = lamb * np.sign(avg_J)* abs(avg_J)**c
+    avg_I = np.mean(I, axis = 0)
     avg_S = np.mean(S, axis = 0)
-    avg_P = avg_S[:-1] + avg_I
+    avg_P = np.mean(P, axis = 0)
     
     
     data = pd.DataFrame({
