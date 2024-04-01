@@ -1,12 +1,12 @@
 ### Contains Monte Carlo simulation code and plotting functions
 import numpy as np
 import pandas as pd
-import matplotlib
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import math
 
-matplotlib.use("pgf")
+mpl.use("pgf")
 plt.rcParams['pgf.texsystem'] = "pdflatex"
 plt.rcParams['savefig.format'] = 'pgf'
 plt.rcParams['savefig.dpi'] = 300
@@ -21,7 +21,7 @@ plt.rcParams['legend.fontsize'] = 18
 plt.rcParams['font.size'] = 20
 plt.rcParams['text.usetex'] = True
 # plt.rcParams['font.family'] = "Helvetica"
-n_colors = 10
+n_colors = 5
 plt.rcParams['axes.prop_cycle'] = plt.cycler("color", plt.cm.viridis(np.linspace(0,0.8,n_colors)))
 
 # Monte Carlo Simulator for optimal trade execution
@@ -193,7 +193,7 @@ def plot_multi_results(f_title, df, ncols = 2, save_fig=False, fpath=""):
     # Create a figure and axis
     N = 7               
     ncols = 2
-    fig, axes = plt.subplots(ncols = ncols, nrows = math.ceil(N/ncols), layout='constrained', figsize=(8 * ncols, 6 * math.ceil(N/ncols)))
+    fig, axes = plt.subplots(ncols = ncols, nrows = math.ceil(N/ncols), layout='constrained', figsize=(6, 6 * math.ceil(N/ncols)))
 
     # Columns to plot
     cols = ['Q', 'x', 'alpha', 'J', 'Y', 'I', 'S', 'P']
@@ -269,6 +269,9 @@ def plot_multi_results(f_title, df, ncols = 2, save_fig=False, fpath=""):
         fig.savefig(fpath, bbox_inches='tight')
 
     return fig
+
+
+
 
 def const_num_alpha_only_buy(p, rem_t, rem_q, alpha, **kwargs):
     '''
