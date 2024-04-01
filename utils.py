@@ -6,23 +6,23 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import math
 
-mpl.use("pgf")
-plt.rcParams['pgf.texsystem'] = "pdflatex"
-plt.rcParams['savefig.format'] = 'pgf'
-plt.rcParams['savefig.dpi'] = 300
-plt.rcParams['font.family'] = 'serif'
-plt.rcParams['pgf.rcfonts'] = False
-plt.rcParams['figure.figsize'] = [8, 6]
-plt.rcParams['axes.titlesize'] = 20
-plt.rcParams['axes.labelsize'] = 20
-plt.rcParams['xtick.labelsize'] = 15
-plt.rcParams['ytick.labelsize'] = 15
-plt.rcParams['legend.fontsize'] = 18
-plt.rcParams['font.size'] = 20
-plt.rcParams['text.usetex'] = True
-# plt.rcParams['font.family'] = "Helvetica"
-n_colors = 5
-plt.rcParams['axes.prop_cycle'] = plt.cycler("color", plt.cm.viridis(np.linspace(0,0.8,n_colors)))
+# mpl.use("pgf")
+# plt.rcParams['pgf.texsystem'] = "pdflatex"
+# plt.rcParams['savefig.format'] = 'pgf'
+# plt.rcParams['savefig.dpi'] = 300
+# plt.rcParams['font.family'] = 'serif'
+# plt.rcParams['pgf.rcfonts'] = False
+# plt.rcParams['figure.figsize'] = [8, 6]
+# plt.rcParams['axes.titlesize'] = 20
+# plt.rcParams['axes.labelsize'] = 20
+# plt.rcParams['xtick.labelsize'] = 15
+# plt.rcParams['ytick.labelsize'] = 15
+# plt.rcParams['legend.fontsize'] = 18
+# plt.rcParams['font.size'] = 20
+# plt.rcParams['text.usetex'] = True
+# # plt.rcParams['font.family'] = "Helvetica"
+# n_colors = 5
+# plt.rcParams['axes.prop_cycle'] = plt.cycler("color", plt.cm.viridis(np.linspace(0,0.8,n_colors)))
 
 # Monte Carlo Simulator for optimal trade execution
 def sim_MC(funct, # function that determines # of shares to trade at each time step
