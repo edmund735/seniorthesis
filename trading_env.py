@@ -42,47 +42,53 @@ class TradingEnv(gym.Env):
         self.init_q = init_q
         self.target_q = target_q
         self.S0 = S0
-        self.MAX_J = target_q - init_q
-        self.MAX_I = lamb * np.sign(self.MAX_J) * abs(self.MAX_J) ** self.c
+        self.MAX_J = abs(target_q - init_q)
+        self.A = 1/(1-np.exp(-2/self.theta)) # for calculating std of S
 
         # self.bench_x = self.target_q / self.
 
-        # for low and high, state variables are J, I, alpha, P, Q_rem, T_rem
-        low = np.array([-1, -1, -np.inf, -np.inf, -1, -1])
-        high = np.array([1, 1, np.inf, np.inf, 1, 1])
+        # for low and high, state variables are J, alpha, S, Q_rem, T_rem
+        low = np.array([-1, -np.inf, -np.inf, -1, 0])
+        high = np.array([0, np.inf, np.inf, 0, 1])
         self.observation_space = spaces.Box(low = low, high = high, dtype = np.float64)
 
         # Actions will be rescaled in step function
         self.action_space = spaces.Box(low = -1., high = 1., shape = (1,), dtype = np.float32)
 
-    # count aggregates the number of samples seen so far
-    def update(self, new_value):
-        (count, mean, M2) = self.P_stats
-        count += 1
-        delta = new_value - mean
-        mean += delta / count
-        delta2 = new_value - mean
-        M2 += delta * delta2
-        return (count, mean, M2)
+    # # count aggregates the number of samples seen so far
+    # def update(self, new_value):
+    #     (count, mean, M2) = self.P_stats
+    #     count += 1
+    #     delta = new_value - mean
+    #     mean += delta / count
+    #     delta2 = new_value - mean
+    #     M2 += delta * delta2
+    #     return (count, mean, M2)
 
-    # Retrieve the mean, std dev and sample std dev from an aggregate
-    def finalize(self):
-        (count, mean, M2) = self.P_stats
-        if count < 2:
-            return (mean, 1, 1)
-        else:
-            (mean, stddev, sample_stddev) = (mean, np.sqrt(M2 / count), np.sqrt(M2 / (count - 1)))
-            return (mean, stddev, sample_stddev)
+    # # Retrieve the mean, std dev and sample std dev from an aggregate
+    # def finalize(self):
+    #     (count, mean, M2) = self.P_stats
+    #     if count < 2:
+    #         return (mean, 1, 1)
+    #     else:
+    #         (mean, stddev, sample_stddev) = (mean, np.sqrt(M2 / count), np.sqrt(M2 / (count - 1)))
+    #         return (mean, stddev, sample_stddev)
         
     def _get_obs(self):
-        norm_J = self.J/self.MAX_J*2-1
-        norm_I = self.I/self.MAX_I*2-1
-        norm_alpha = self.alpha/self.gamma
-        norm_Q_rem = self.Q_rem/(self.target_q - self.init_q)*2-1
-        norm_T_rem = self.T_rem/self.T*2-1
-        (P_mean, _, P_stddev) = self.finalize()
-        norm_P = (self.P-P_mean)/P_stddev
-        return np.array([norm_J, norm_I, norm_alpha, norm_P, norm_Q_rem, norm_T_rem], dtype = np.float64)
+        norm_J = self.J/self.MAX_J # *2-1
+        t = self.T - self.T_rem
+        alpha_std = self.gamma*np.sqrt((1-np.exp(-2*(t+1)/self.theta))/(1-np.exp(-2/self.theta)))
+        norm_alpha = self.alpha/alpha_std
+        S_var = t*self.sigma**2+self.gamma**2*self.A*(t-self.A*np.exp(-2/self.theta)*(1-np.exp(-2*t/self.theta)))
+        S_var += 2*self.gamma**2/((1-np.exp(2/self.theta))*(1-np.exp(-1/self.theta)))*(np.exp(-1/self.theta)*self.A*(1-np.exp(-2*(t-1)/self.theta))-np.exp(-t/self.theta)*(1-np.exp(-(t-1)/self.theta))/(1-np.exp(-1/self.theta))-(t-1)*np.exp(1/self.theta)+np.exp((-t+2)/self.theta)*(1-np.exp((t-1)/self.theta))/(1-np.exp(1/self.theta)))
+        S_std = np.sqrt(S_var)
+        if t == 0:
+            norm_S = 0
+        else:
+            norm_S = (self.S-self.S0)/S_std
+        norm_Q_rem = -self.Q_rem/(self.target_q - self.init_q)
+        norm_T_rem = self.T_rem/self.T
+        return np.array([norm_J, norm_alpha, norm_S, norm_Q_rem, norm_T_rem], dtype = np.float64)
 
     def _get_info(self):
         return {}
@@ -91,14 +97,11 @@ class TradingEnv(gym.Env):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
 
-        self.T_rem = self.T
         self.J = 0.
-        self.I = 0.
-        self.S = self.S0
-        self.P = self.S0
-        self.P_stats = (1, self.P, 0)
         self.alpha = self.np_random.normal(scale = self.gamma) # forecast
+        self.S = self.S0
         self.Q_rem = self.target_q - self.init_q # position
+        self.T_rem = self.T
 
         # Benchmark
         # self.bench_J = 0.
@@ -132,17 +135,16 @@ class TradingEnv(gym.Env):
         # Dynamics of price impact
         self.J = np.exp(-1/self.impact_decay) * self.J + x
         if self.c == 0.5:
-            self.I = self.lamb * np.sign(self.J) * np.sqrt(abs(self.J))
+            I = self.lamb * np.sign(self.J) * np.sqrt(abs(self.J))
         else:
-            self.I = self.lamb * np.sign(self.J) * abs(self.J) ** self.c
-        self.P = self.S + self.I
-        self.P_stats = self.update(new_value = self.P)
+            I = self.lamb * np.sign(self.J) * abs(self.J) ** self.c
+        P = self.S + I
         
         # Calculate for next time step
         prev_S = self.S
         self.S += self.alpha + self.np_random.normal(scale = self.sigma)
         self.Q_rem -= x
-        reward = -x * self.I + (self.target_q - self.Q_rem) * (self.S-prev_S)
+        reward = -x * I + (self.target_q - self.Q_rem) * (self.S-prev_S)
         self.alpha = np.exp(-1/self.theta) * self.alpha + self.np_random.normal(scale = self.gamma)
         self.T_rem -= 1
 
