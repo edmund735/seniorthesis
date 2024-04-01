@@ -5,7 +5,7 @@ from gymnasium import spaces, logger
 
 class TradingEnv(gym.Env):
     
-    metadata = {}
+    metadata = {'render_modes': [None]}
 
     def __init__(self,
                  render_mode=None,
@@ -88,6 +88,7 @@ class TradingEnv(gym.Env):
             norm_S = (self.S-self.S0)/S_std
         norm_Q_rem = -self.Q_rem/(self.target_q - self.init_q)
         norm_T_rem = self.T_rem/self.T
+        # return np.array([self.J, self.alpha, self.S, self.Q_rem, self.T_rem], dtype = np.float64)
         return np.array([norm_J, norm_alpha, norm_S, norm_Q_rem, norm_T_rem], dtype = np.float64)
 
     def _get_info(self):
