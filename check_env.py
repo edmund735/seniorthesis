@@ -1,6 +1,6 @@
 import gymnasium as gym
+from trading_env1 import TradingEnv as TradingEnv1
 import trading_env
-from trading_env1 import TradingEnv
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import VecNormalize
@@ -11,9 +11,9 @@ from stable_baselines3.common.env_checker import check_env as sb3_check_env
 import numpy as np
 import os
 
-env = TradingEnv()
-# env = gym.make('TradingEnv')
-gym_check_env(env, skip_render_check = True)
+# env = TradingEnv()
+env = gym.make('TradingEnv')
+gym_check_env(env)
 # env = TradingEnv()
 
 # obs, info = env.reset()
