@@ -5,6 +5,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import math
+import pickle
 
 # mpl.use("pgf")
 # plt.rcParams['pgf.texsystem'] = "pdflatex"
@@ -39,7 +40,9 @@ def sim_MC(funct, # function that determines # of shares to trade at each time s
            target_q = 0, # target quantity
            S0 = 10, # initial price of asset
            n_MC = 1000, # no. of MC simulations,
-           seed = 29 # rng seed
+           seed = 29, # rng seed
+           save = False, # whether to save results
+           fpath = None, # location to save
            ):
     '''
     Runs Monte Carlo simulations for optimal trade execution with temporary price impact for a given trading strategy funct, returns average of relevant quantities
@@ -130,6 +133,10 @@ def sim_MC(funct, # function that determines # of shares to trade at each time s
         })
     
     data = pd.concat([data, pd.DataFrame({'S': avg_S, 'Q': avg_Q,'Y': avg_Y})], axis = 1)
+
+    if save:
+        with open(fpath + '.pkl', 'wb') as file:
+            pickle.dump(data, file)
     return data
 
 
