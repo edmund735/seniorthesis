@@ -42,14 +42,14 @@ class TradingEnv(gym.Env):
         self.init_q = init_q
         self.target_q = target_q
         self.S0 = S0
-        self.MAX_J = abs(target_q - init_q)
-        self.A = 1/(1-np.exp(-2/self.theta)) # for calculating std of S
+        self.MAX_J = target_q - init_q
+        # self.A = 1/(1-np.exp(-2/self.theta)) # for calculating std of S
 
         # self.bench_x = self.target_q / self.
 
-        # for low and high, state variables are J, alpha, S, Q_rem, T_rem
-        low = np.array([-1, -np.inf, -np.inf, -1, 0])
-        high = np.array([0, np.inf, np.inf, 0, 1])
+        # for low and high, state variables are J, alpha, Q_rem, T_rem
+        low = np.array([-1, -np.inf, -1, -1])
+        high = np.array([1, np.inf, 1, 1])
         self.observation_space = spaces.Box(low = low, high = high, dtype = np.float64)
 
         # Actions will be rescaled in step function
@@ -75,21 +75,23 @@ class TradingEnv(gym.Env):
     #         return (mean, stddev, sample_stddev)
         
     def _get_obs(self):
-        norm_J = self.J/self.MAX_J # *2-1
+        norm_J = self.J/self.MAX_J*2-1
         t = self.T - self.T_rem
         alpha_std = self.gamma*np.sqrt((1-np.exp(-2*(t+1)/self.theta))/(1-np.exp(-2/self.theta)))
         norm_alpha = self.alpha/alpha_std
-        S_var = t*self.sigma**2+self.gamma**2*self.A*(t-self.A*np.exp(-2/self.theta)*(1-np.exp(-2*t/self.theta)))
-        S_var += 2*self.gamma**2/((1-np.exp(2/self.theta))*(1-np.exp(-1/self.theta)))*(np.exp(-1/self.theta)*self.A*(1-np.exp(-2*(t-1)/self.theta))-np.exp(-t/self.theta)*(1-np.exp(-(t-1)/self.theta))/(1-np.exp(-1/self.theta))-(t-1)*np.exp(1/self.theta)+np.exp((-t+2)/self.theta)*(1-np.exp((t-1)/self.theta))/(1-np.exp(1/self.theta)))
-        S_std = np.sqrt(S_var)
-        if t == 0:
-            norm_S = 0
-        else:
-            norm_S = (self.S-self.S0)/S_std
-        norm_Q_rem = -self.Q_rem/(self.target_q - self.init_q)
-        norm_T_rem = self.T_rem/self.T
-        # return np.array([self.J, self.alpha, self.S, self.Q_rem, self.T_rem], dtype = np.float64)
-        return np.array([norm_J, norm_alpha, norm_S, norm_Q_rem, norm_T_rem], dtype = np.float64)
+        # S_var = t*self.sigma**2+self.gamma**2*self.A*(t-self.A*np.exp(-2/self.theta)*(1-np.exp(-2*t/self.theta)))
+        # S_var += 2*self.gamma**2/((1-np.exp(2/self.theta))*(1-np.exp(-1/self.theta)))*(np.exp(-1/self.theta)*self.A*(1-np.exp(-2*(t-1)/self.theta))-np.exp(-t/self.theta)*(1-np.exp(-(t-1)/self.theta))/(1-np.exp(-1/self.theta))-(t-1)*np.exp(1/self.theta)+np.exp((-t+2)/self.theta)*(1-np.exp((t-1)/self.theta))/(1-np.exp(1/self.theta)))
+        # S_std = np.sqrt(S_var)
+        
+        # if t == 0:
+        #     norm_S = 0
+        # else:
+        #     norm_S = (self.S-self.S0)/S_std
+        norm_Q_rem = self.Q_rem/(self.target_q - self.init_q)*2-1
+        norm_T_rem = self.T_rem/self.T*2-1
+
+        # return np.array([self.J, self.alpha, self.Q_rem, self.T_rem], dtype = np.float64)
+        return np.array([norm_J, norm_alpha, norm_Q_rem, norm_T_rem], dtype = np.float64)
 
     def _get_info(self):
         return {}
