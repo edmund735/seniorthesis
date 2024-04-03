@@ -1,5 +1,5 @@
 import gymnasium as gym
-from trading_env1 import TradingEnv as TradingEnv1
+from trading_env_rllib import TradingEnv as TradingEnv1
 import trading_env
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
@@ -12,27 +12,27 @@ import numpy as np
 import os
 
 # env = TradingEnv()
-env = gym.make('TradingEnv')
-gym_check_env(env)
+env = gym.make('Trading-v0')
+gym_check_env(env, skip_render_check = True)
 # env = TradingEnv()
 
-# obs, info = env.reset()
-# print(obs)
-# n_steps = 10
-# for i in range(n_steps):
-#     # Random action
-#     action = env.action_space.sample()
-#     obs, reward, terminated, truncated, info = env.step(action)
-#     print(f"\ni={i}")
-#     print(f"action: {action}")
-#     print(f"observation: {obs}")
-#     print(f"reward: {reward}")
-#     if terminated:
-#         obs, info = env.reset()
+obs, info = env.reset()
+print(obs)
+n_steps = 10
+for i in range(n_steps):
+    # Random action
+    action = env.action_space.sample()
+    obs, reward, terminated, truncated, info = env.step(action)
+    print(f"\ni={i}")
+    print(f"action: {action}")
+    print(f"observation: {obs}")
+    print(f"reward: {reward}")
+    if terminated:
+        obs, info = env.reset()
 
 
-# vec_env = make_vec_env('trading_env/TradingEnv', n_envs = 2, seed = 29)
-# # vec_env = VecNormalize(vec_env, norm_obs = False, norm_reward = True, gamma = 1)
+# vec_env = make_vec_env('Trading-v0', n_envs = 2, seed = 29)
+# vec_env = VecNormalize(vec_env, norm_obs = False, norm_reward = True, gamma = 1)
 
 # obs = vec_env.reset()
 # print(obs)
