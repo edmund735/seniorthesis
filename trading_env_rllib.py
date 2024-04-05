@@ -146,4 +146,7 @@ class TradingEnv(gym.Env):
         (rew_mean, rew_stddev, rew_sample_stddev) = self.finalize()
         reward = (reward - rew_mean)/rew_stddev
 
+        # print(f"Average reward: {rew_mean}")
+        # print(f"STD: {rew_stddev}")
+
         return observation, reward, terminated, False, info
