@@ -43,6 +43,7 @@ class TradingEnv(gym.Env):
         self.target_q = target_q
         self.S0 = S0
         self.MAX_J = target_q - init_q
+        self.REW_STD = 20.686703127944522 # may change depending on other parameters
         # self.A = 1/(1-np.exp(-2/self.theta)) # for calculating std of S
 
         # for low and high, state variables are J, alpha, Q_rem, T_rem
@@ -106,6 +107,7 @@ class TradingEnv(gym.Env):
 
         observation = self._get_obs()
         info = self._get_info()
+        # print(np.array([self.J, self.alpha, self.Q_rem, self.T_rem], dtype = np.float64))
 
         return observation, info
     
@@ -127,6 +129,8 @@ class TradingEnv(gym.Env):
         if self.T_rem <= 1:
             x = self.Q_rem
 
+        # print(f"quantity executed: {x}")
+
         # Dynamics of price impact
         self.J = np.exp(-1/self.impact_decay) * self.J + x
         if self.c == 0.5:
@@ -134,6 +138,9 @@ class TradingEnv(gym.Env):
         else:
             I = self.lamb * np.sign(self.J) * abs(self.J) ** self.c
         
+        # print(f"J: {self.J}")
+        # print(f"I: {I}")
+
         # Calculate for next time step
         prev_S = self.S
         self.S += self.alpha + self.np_random.normal(scale = self.sigma)
@@ -142,10 +149,15 @@ class TradingEnv(gym.Env):
         self.alpha = np.exp(-1/self.theta) * self.alpha + self.np_random.normal(scale = self.gamma)
         self.T_rem -= 1
 
+        # print(f"prev_s: {prev_S}")
+        # print(f"S: {self.S}")
+        # print(f"Q_rem: {self.Q_rem}")
+        # print(f"reward: {reward}")
+
         observation = self._get_obs()
         info = self._get_info()
         
         # An episode is terminated when there's no more time
         terminated = True if self.T_rem <= 0 or self.Q_rem >= 0 else False
 
-        return observation, reward, terminated, False, info
+        return observation, reward/self.REW_STD, terminated, False, info
