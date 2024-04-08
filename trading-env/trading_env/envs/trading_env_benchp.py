@@ -19,7 +19,7 @@ class TradingEnvBenchP(gym.Env):
                  init_q = 1000, # initial position
                  target_q = 0, # target quantity
                  S0 = 10, # initial price of asset,
-                 opt_p = 800, # optimal p value (alpha coefficient)
+                 opt_p = 821.466, # optimal p value (alpha coefficient)
                  ):
         
         assert T > 0, "T must be positive"
@@ -45,6 +45,7 @@ class TradingEnvBenchP(gym.Env):
         self.S0 = S0
         self.MAX_J = target_q - init_q
         self.opt_p = opt_p
+        self.REW_STD = 55.106066192192465 # may change depending on other parameters
 
         # for low and high, state variables are J, alpha, Q_rem, T_rem
         low = np.array([-1, -np.inf, -1, -1])
@@ -53,26 +54,6 @@ class TradingEnvBenchP(gym.Env):
 
         # Actions will be rescaled in step function
         self.action_space = spaces.Box(low = -1., high = 1., shape = (1,), dtype = np.float32)
-
-    # # Welford's algo
-    # # count aggregates the number of samples seen so far
-    # def update(self, new_value):
-    #     (count, mean, M2) = self.P_stats
-    #     count += 1
-    #     delta = new_value - mean
-    #     mean += delta / count
-    #     delta2 = new_value - mean
-    #     M2 += delta * delta2
-    #     return (count, mean, M2)
-
-    # # Retrieve the mean, std dev and sample std dev from an aggregate
-    # def finalize(self):
-    #     (count, mean, M2) = self.P_stats
-    #     if count < 2:
-    #         return (mean, 1, 1)
-    #     else:
-    #         (mean, stddev, sample_stddev) = (mean, np.sqrt(M2 / count), np.sqrt(M2 / (count - 1)))
-    #         return (mean, stddev, sample_stddev)
         
     def _get_obs(self):
         norm_J = self.J/self.MAX_J*2-1
@@ -133,6 +114,8 @@ class TradingEnvBenchP(gym.Env):
             I = self.lamb * np.sign(self.J) * abs(self.J) ** self.c
         self.Q_rem -= x
 
+        bench_x = 0
+        bench_I = 0
         if self.bench_Q_rem < 0:
             bench_x = np.maximum(np.minimum(self.bench_Q_rem/self.T_rem + self.opt_p * self.alpha, 0), self.bench_Q_rem)
             if self.T_rem <= 1:
@@ -147,10 +130,9 @@ class TradingEnvBenchP(gym.Env):
         # Calculate for next time step
         prev_S = self.S
         self.S += self.alpha + self.np_random.normal(scale = self.sigma)
-        if self.bench_Q_rem < 0:
-            reward = bench_x*bench_I - x*I+ (self.S-prev_S)*(self.bench_Q_rem-self.Q_rem)
-        else:
-            reward = -x * I + (self.target_q - self.Q_rem) * (self.S-prev_S)
+        
+        reward = bench_x*bench_I - x*I+ (self.S-prev_S)*(self.bench_Q_rem-self.Q_rem)
+
         self.alpha = np.exp(-1/self.theta) * self.alpha + self.np_random.normal(scale = self.gamma)
         self.T_rem -= 1
 
@@ -160,4 +142,4 @@ class TradingEnvBenchP(gym.Env):
         # An episode is terminated when there's no more time
         terminated = True if self.T_rem <= 0 or self.Q_rem >= 0 else False
 
-        return observation, reward, terminated, False, info
+        return observation, reward/self.REW_STD, terminated, False, info
