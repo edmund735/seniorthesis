@@ -40,7 +40,7 @@ def sim_MC(funct, # function that determines # of shares to trade at each time s
            target_q = 0, # target quantity
            S0 = 10, # initial price of asset
            n_MC = 1000, # no. of MC simulations,
-           seed = 29, # rng seed
+           seed = 6, # rng seed
            save = False, # whether to save results
            fpath = None, # location to save
            ):
@@ -200,7 +200,7 @@ def plot_multi_results(f_title, df, ncols = 2, save_fig=False, fpath=""):
     # Create a figure and axis
     N = 7               
     ncols = 2
-    fig, axes = plt.subplots(ncols = ncols, nrows = math.ceil(N/ncols), layout='constrained', figsize=(6, 6 * math.ceil(N/ncols)))
+    fig, axes = plt.subplots(ncols = ncols, nrows = math.ceil(N/ncols), layout='constrained', figsize=(6*ncols, 6 * math.ceil(N/ncols)))
 
     # Columns to plot
     cols = ['Q', 'x', 'alpha', 'J', 'Y', 'I', 'S', 'P']
